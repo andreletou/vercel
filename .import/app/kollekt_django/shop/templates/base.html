@@ -1,0 +1,38 @@
+{% load static %}<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Kollekt — Acheter mieux, ensemble{% endblock %}</title>
+  <meta name="description" content="Kollekt rassemble vos commandes pour vous faire accéder aux bons produits, au juste prix.">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="{% static 'shop/icon-light-32x32.png' %}" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="{% static 'shop/icon-dark-32x32.png' %}" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="{% static 'shop/icon.svg' %}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{% static 'shop/apple-icon.png' %}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+
+  {# Tailwind v4 (mode navigateur). En production : voir README pour compiler le CSS. #}
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+    }
+  </style>
+  <style>
+    html { scroll-behavior: smooth; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  </style>
+  {% block head %}{% endblock %}
+</head>
+<body class="min-h-screen overflow-x-hidden bg-[#f7f6f2] font-sans text-[#20221e] antialiased">
+  {% block body %}{% endblock %}
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+  <script>lucide.createIcons();</script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

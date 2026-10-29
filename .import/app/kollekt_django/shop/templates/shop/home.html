@@ -1,0 +1,107 @@
+{% extends "shop/site_base.html" %}
+{% load static shop_extras %}
+{% block content %}
+<section id="top" class="relative mx-auto grid max-w-7xl items-center gap-12 px-5 pb-16 pt-10 sm:px-8 md:grid-cols-[1.05fr_0.95fr] md:pb-24 md:pt-16 lg:px-12">
+  <div class="relative z-10 max-w-xl">
+    <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#c77746]/20 bg-[#c77746]/7 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#ad633b]">
+      <i data-lucide="sparkles" class="size-3.5"></i> La nouvelle façon d’acheter mieux
+    </div>
+    <h1 class="font-serif text-[3.6rem] leading-[0.96] tracking-[-0.065em] sm:text-7xl lg:text-[5.9rem]">Plus on est,<br><em class="text-[#c77746]">mieux on achète.</em></h1>
+    <p class="mt-7 max-w-md text-base leading-7 text-[#20221e]/60 sm:text-lg">Kollekt rassemble vos commandes pour vous faire accéder aux bons produits, au juste prix. Simplement.</p>
+    <div class="mt-9 flex flex-wrap items-center gap-3">
+      <a href="#selection" class="group inline-flex items-center gap-3 rounded-full bg-[#20221e] px-5 py-3.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-[#34372f]">Voir la sélection <i data-lucide="arrow-up-right" class="size-4"></i></a>
+      <a href="#how" class="rounded-full px-4 py-3.5 text-sm font-semibold text-[#20221e]/65 transition-colors hover:text-[#20221e]">Comment ça marche <span class="ml-1">↓</span></a>
+    </div>
+    <div class="mt-12 flex items-center gap-4 border-t border-[#20221e]/10 pt-5">
+      <div class="flex -space-x-2">
+        <span style="background-color:#d6a187" class="flex size-7 items-center justify-center rounded-full border-2 border-[#f7f6f2] text-[9px] font-bold text-white">A</span>
+        <span style="background-color:#9caa89" class="flex size-7 items-center justify-center rounded-full border-2 border-[#f7f6f2] text-[9px] font-bold text-white">M</span>
+        <span style="background-color:#c7b79d" class="flex size-7 items-center justify-center rounded-full border-2 border-[#f7f6f2] text-[9px] font-bold text-white">S</span>
+        <span style="background-color:#9b8a9b" class="flex size-7 items-center justify-center rounded-full border-2 border-[#f7f6f2] text-[9px] font-bold text-white">N</span>
+      </div>
+      <p class="text-xs leading-4 text-[#20221e]/55"><strong class="text-[#20221e]">+2 400 membres</strong><br>achètent déjà ensemble</p>
+    </div>
+  </div>
+
+  <div class="relative mx-auto w-full max-w-[550px] md:ml-auto">
+    <div class="absolute -right-3 top-6 z-10 flex animate-[float_5s_ease-in-out_infinite] items-center gap-2 rounded-full bg-white px-3 py-2 text-xs font-semibold shadow-[0_10px_30px_rgba(32,34,30,0.12)] sm:-right-4 sm:top-16">
+      <span class="flex size-6 items-center justify-center rounded-full bg-[#d9e3cf] text-[#5d7352]"><i data-lucide="check" class="size-3.5"></i></span> 86 commandes réunies
+    </div>
+    <div class="overflow-hidden rounded-[2rem] rounded-br-[5rem] bg-[#dcd6c8] shadow-[0_25px_60px_rgba(32,34,30,0.13)]">
+      <img src="{% static 'shop/images/hero-bundle.png' %}" alt="Service de table Sienne" class="aspect-[0.98] w-full object-cover">
+    </div>
+    <div class="absolute -bottom-5 -left-3 flex max-w-[190px] items-center gap-2 rounded-2xl border border-white/60 bg-[#20221e] p-3 text-white shadow-lg sm:-left-8">
+      <div class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#c77746]"><i data-lucide="trending-up" class="size-4"></i></div>
+      <div><p class="text-[10px] text-white/55">Économie moyenne</p><p class="text-sm font-semibold">− 22% sur le prix</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="selection" class="mx-auto max-w-7xl scroll-mt-8 px-5 pb-20 sm:px-8 lg:px-12">
+  <div class="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+    <div>
+      <p class="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#c77746]">La sélection du moment</p>
+      <h2 class="font-serif text-4xl tracking-[-0.05em] sm:text-5xl">Des pépites, <em class="text-[#c77746]">ensemble.</em></h2>
+    </div>
+    <div class="flex items-center gap-2 text-sm text-[#20221e]/50"><span class="size-2 rounded-full bg-[#9aaf82]"></span> {{ open_count }} offre{{ open_count|pluralize }} ouverte{{ open_count|pluralize }}</div>
+  </div>
+
+  <div class="grid gap-5 md:grid-cols-3">
+    {% for product in products %}
+    <article class="group overflow-hidden rounded-[1.5rem] border border-[#20221e]/8 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(32,34,30,0.1)]">
+      <div class="relative aspect-[1.12] overflow-hidden" style="background-color: {{ product.accent }}">
+        {% if product.image_src %}<img src="{{ product.image_src }}" alt="{{ product.name }}" loading="lazy" class="size-full object-cover transition-transform duration-700 group-hover:scale-105">{% endif %}
+        {% if product.tag %}<span class="absolute left-4 top-4 rounded-full bg-white/85 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] backdrop-blur-sm">{{ product.tag }}</span>{% endif %}
+        {% if product.is_open %}
+        <a href="{% url 'join_product' product.slug %}" aria-label="Ajouter {{ product.name }}" class="absolute bottom-4 right-4 flex size-10 items-center justify-center rounded-full bg-[#20221e] text-white opacity-0 transition-all group-hover:opacity-100"><i data-lucide="plus" class="size-5"></i></a>
+        {% endif %}
+      </div>
+      <div class="p-5">
+        {% if product.arrival_date %}
+        <div class="mb-4 flex items-center gap-2 rounded-xl bg-[#f7f6f2] px-3 py-2.5 text-xs text-[#20221e]/60">
+          <i data-lucide="package" class="size-3.5 text-[#c77746]"></i>
+          <span>Arrivée prévue : <strong class="font-semibold text-[#20221e]">{{ product.arrival_date|date:"j F Y" }}</strong></span>
+        </div>
+        {% endif %}
+        <div class="mb-3 flex items-start justify-between gap-3">
+          <div>
+            <p class="mb-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#20221e]/40">{{ product.category.name }}</p>
+            <h3 class="font-serif text-2xl tracking-[-0.04em]">{{ product.name }}</h3>
+          </div>
+          <p class="whitespace-nowrap text-right text-sm font-bold">{{ product.price|fcfa }} <span class="text-[10px] font-medium text-[#20221e]/45">FCFA TTC</span></p>
+        </div>
+        <p class="mb-5 text-sm leading-5 text-[#20221e]/52">{{ product.description }}</p>
+        <div class="mb-2 flex justify-between text-xs">
+          <span class="font-semibold">{{ product.ordered_count }} commande{{ product.ordered_count|pluralize }} réunie{{ product.ordered_count|pluralize }}</span>
+          <span class="text-[#c77746]">{% if product.stock %}Encore {{ product.stock }}{% else %}Complet{% endif %}</span>
+        </div>
+        <div class="h-1.5 overflow-hidden rounded-full bg-[#eeeae3]"><div class="h-full rounded-full bg-[#c77746]" style="width: {{ product.progress_percent }}%"></div></div>
+        {% if product.is_open %}
+        <a href="{% url 'join_product' product.slug %}" class="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-[#20221e]/10 py-3 text-sm font-semibold transition-colors hover:border-[#20221e] hover:bg-[#20221e] hover:text-white">Rejoindre la commande <i data-lucide="arrow-up-right" class="size-4"></i></a>
+        {% else %}
+        <p class="mt-5 w-full rounded-xl bg-[#f7f6f2] py-3 text-center text-sm font-semibold text-[#20221e]/40">Offre complète</p>
+        {% endif %}
+      </div>
+    </article>
+    {% empty %}
+    <p class="col-span-full rounded-2xl bg-white p-8 text-center text-sm text-[#20221e]/55">Aucune offre pour le moment. Revenez bientôt !</p>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="how" class="border-y border-[#20221e]/8 bg-[#eeece5] px-5 py-16 sm:px-8 lg:px-12">
+  <div class="mx-auto max-w-7xl">
+    <div class="grid gap-12 md:grid-cols-[0.8fr_1.2fr] md:items-end">
+      <div>
+        <p class="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#c77746]">Le principe est simple</p>
+        <h2 class="font-serif text-4xl leading-none tracking-[-0.05em] sm:text-5xl">Acheter mieux,<br><em class="text-[#c77746]">sans effort.</em></h2>
+      </div>
+      <div class="grid gap-8 sm:grid-cols-3">
+        <div class="border-t border-[#20221e]/15 pt-4"><p class="mb-7 text-xs font-bold text-[#c77746]">01</p><h3 class="mb-2 font-serif text-2xl">Choisissez</h3><p class="text-sm leading-5 text-[#20221e]/55">Une offre qui vous plaît.</p></div>
+        <div class="border-t border-[#20221e]/15 pt-4"><p class="mb-7 text-xs font-bold text-[#c77746]">02</p><h3 class="mb-2 font-serif text-2xl">Rejoignez</h3><p class="text-sm leading-5 text-[#20221e]/55">Le groupe en un clic.</p></div>
+        <div class="border-t border-[#20221e]/15 pt-4"><p class="mb-7 text-xs font-bold text-[#c77746]">03</p><h3 class="mb-2 font-serif text-2xl">Recevez</h3><p class="text-sm leading-5 text-[#20221e]/55">Au meilleur prix.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

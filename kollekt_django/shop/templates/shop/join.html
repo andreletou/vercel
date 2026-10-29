@@ -1,0 +1,47 @@
+{% extends "shop/site_base.html" %}
+{% load shop_extras %}
+{% block title %}Rejoindre « {{ product.name }} » — Kollekt{% endblock %}
+{% block content %}
+<section class="mx-auto flex max-w-7xl justify-center px-5 pb-20 pt-6 sm:px-8">
+  <div class="w-full max-w-md rounded-[1.75rem] bg-white p-6 shadow-xl sm:p-8">
+    <p class="mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[#c77746]">Rejoindre l’offre</p>
+    <h1 class="mb-4 font-serif text-3xl">{{ product.name }}</h1>
+
+    <div class="mb-5 flex items-center gap-4 rounded-2xl bg-[#f7f6f2] p-3">
+      <div class="size-16 shrink-0 overflow-hidden rounded-xl" style="background-color: {{ product.accent }}">
+        {% if product.image_src %}<img src="{{ product.image_src }}" alt="" class="size-full object-cover">{% endif %}
+      </div>
+      <div class="text-sm">
+        <p class="font-bold">{{ product.price|fcfa }} <span class="text-[10px] font-medium text-[#20221e]/45">FCFA TTC / unité</span></p>
+        <p class="text-xs text-[#20221e]/55">{{ product.ordered_count }} commande{{ product.ordered_count|pluralize }} réunie{{ product.ordered_count|pluralize }} · encore {{ product.stock }}</p>
+        {% if product.arrival_date %}<p class="text-xs text-[#20221e]/55">Arrivée prévue : {{ product.arrival_date|date:"j F Y" }}</p>{% endif %}
+      </div>
+    </div>
+
+    {% if product.is_open %}
+    <form method="post" class="flex flex-col gap-3">
+      {% csrf_token %}
+      {% include "shop/_form_fields.html" %}
+      <p class="text-sm text-[#20221e]/60">Total : <strong id="total" class="text-[#20221e]">{{ product.price|fcfa }}</strong> FCFA TTC</p>
+      <button type="submit" class="mt-1 rounded-xl bg-[#20221e] py-3.5 text-sm font-semibold text-white">Réserver ma place</button>
+    </form>
+    {% else %}
+      <p class="rounded-xl bg-[#f7f6f2] py-3 text-center text-sm font-semibold text-[#20221e]/50">Cette offre est complète.</p>
+    {% endif %}
+    <p class="mt-5 text-center text-[11px] text-[#20221e]/40">Paiement sécurisé · Aucun engagement avant confirmation</p>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+  (function () {
+    var q = document.getElementById('id_quantity'), t = document.getElementById('total');
+    if (!q || !t) return;
+    var price = {{ product.price }};
+    function fmt(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
+    q.addEventListener('input', function () { t.textContent = fmt(price * (parseInt(q.value, 10) || 0)); });
+  })();
+</script>
+{% endblock %}

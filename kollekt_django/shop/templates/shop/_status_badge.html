@@ -1,0 +1,5 @@
+<span class="rounded-full px-2.5 py-1 text-xs font-semibold
+  {% if o.status == 'paid' or o.status == 'delivered' %}bg-[#d9e3cf] text-[#5d7352]
+  {% elif o.status == 'cancelled' %}bg-[#f3dcd7] text-[#b05242]
+  {% elif o.status == 'confirmed' %}bg-[#e3ddf0] text-[#5b4d85]
+  {% else %}bg-[#f1e6d3] text-[#9a6a2a]{% endif %}">{{ o.get_status_display }}</span>

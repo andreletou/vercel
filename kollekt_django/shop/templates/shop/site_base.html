@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+<div class="border-b border-[#20221e]/8 bg-[#20221e] px-4 py-2 text-center text-[11px] font-medium tracking-[0.12em] text-[#f7f6f2] sm:text-xs">
+  <span class="mr-2 inline-block size-1.5 rounded-full bg-[#e7a86b]"></span>
+  CAFÉS DE SPÉCIALITÉ · TORRÉFACTION ARTISANALE
+</div>
+
+<header class="relative z-20 mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8 lg:px-12">
+  <a href="{% url 'home' %}" class="flex items-center gap-3" aria-label="Kollekt Café accueil">
+    <span class="flex items-center gap-2 font-serif text-2xl font-semibold tracking-[-0.04em] text-[#20221e]">Kollekt <span class="text-[#b8653b]">Café</span><span class="text-[#b8653b]">.</span></span>
+  </a>
+
+  <nav class="hidden items-center gap-8 md:flex">
+    <a href="{% url 'home' %}#selection" class="text-sm font-semibold transition-colors hover:text-[#b8653b]">Découvrir</a>
+    <a href="{% url 'my_orders' %}" class="text-sm text-[#20221e]/55 transition-colors hover:text-[#b8653b]">Mes commandes</a>
+    <a href="{% url 'home' %}#how" class="text-sm text-[#20221e]/55 transition-colors hover:text-[#b8653b]">Comment ça marche ?</a>
+  </nav>
+
+  <div class="flex items-center gap-2 sm:gap-4">
+    {% if user.is_authenticated %}
+      {% if user.is_staff %}
+        <a href="{% url 'dashboard' %}" class="hidden rounded-full border border-[#20221e]/12 px-4 py-2.5 text-sm font-medium hover:border-[#20221e]/30 sm:block">Administration</a>
+      {% endif %}
+      <form method="post" action="{% url 'logout' %}" class="hidden sm:block">
+        {% csrf_token %}
+        <button type="submit" class="flex items-center gap-2 rounded-full border border-[#20221e]/12 px-4 py-2.5 text-sm font-medium transition-all hover:border-[#20221e]/30">
+          <span class="size-2 rounded-full bg-[#9aaf82]"></span>{{ user.username }} · Se déconnecter
+        </button>
+      </form>
+    {% else %}
+      <a href="{% url 'login' %}" class="hidden items-center gap-2 rounded-full border border-[#20221e]/12 px-4 py-2.5 text-sm font-medium transition-all hover:border-[#20221e]/30 sm:flex">
+        <span class="size-2 rounded-full bg-[#9aaf82]"></span>Se connecter
+      </a>
+    {% endif %}
+    <button id="menu-toggle" type="button" class="rounded-full border border-[#20221e]/12 p-2.5 md:hidden" aria-label="Ouvrir le menu">
+      <i data-lucide="menu" class="size-4"></i>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="absolute inset-x-5 top-16 hidden flex-col gap-4 rounded-2xl border border-[#20221e]/8 bg-[#f7f6f2] p-5 shadow-xl">
+    <a href="{% url 'home' %}#selection">Découvrir</a>
+    <a href="{% url 'my_orders' %}">Mes commandes</a>
+    <a href="{% url 'home' %}#how">Comment ça marche ?</a>
+    {% if user.is_authenticated %}
+      {% if user.is_staff %}<a href="{% url 'dashboard' %}">Administration</a>{% endif %}
+      <form method="post" action="{% url 'logout' %}">{% csrf_token %}
+        <button type="submit" class="w-full rounded-full bg-[#20221e] px-4 py-3 text-white">Se déconnecter</button>
+      </form>
+    {% else %}
+      <a href="{% url 'login' %}" class="rounded-full bg-[#20221e] px-4 py-3 text-center text-white">Se connecter</a>
+    {% endif %}
+  </div>
+</header>
+
+{% include "shop/_messages.html" %}
+
+{% block content %}{% endblock %}
+
+<footer class="mx-auto flex max-w-7xl flex-col gap-5 px-5 py-8 text-xs text-[#20221e]/45 sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
+  <div class="flex items-center gap-2 font-serif text-lg text-[#20221e]">
+    <span class="flex size-6 items-center justify-center rounded-full bg-[#20221e] text-white"><i data-lucide="gem" class="size-3"></i></span>Kollekt Café<span class="text-[#b8653b]">.</span>
+  </div>
+  <p>© {% now "Y" %} Kollekt. Acheter ensemble, naturellement.</p>
+  <div class="flex gap-4">
+    <a href="#" class="hover:text-[#20221e]">Confidentialité</a>
+    <a href="#" class="hover:text-[#20221e]">Aide</a>
+  </div>
+</footer>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.getElementById('menu-toggle').addEventListener('click', function () {
+    var m = document.getElementById('mobile-menu');
+    m.classList.toggle('hidden'); m.classList.toggle('flex');
+  });
+</script>
+{% endblock %}

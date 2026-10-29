@@ -1,0 +1,10 @@
+{% if form.non_field_errors %}
+  {% for e in form.non_field_errors %}<p role="alert" class="text-sm text-[#b05242]">{{ e }}</p>{% endfor %}
+{% endif %}
+{% for field in form %}
+  <div>
+    {% if field.label %}<label for="{{ field.id_for_label }}" class="mb-1.5 block text-xs font-semibold text-[#20221e]/60">{{ field.label }}</label>{% endif %}
+    {{ field }}
+    {% for e in field.errors %}<p role="alert" class="mt-1 text-sm text-[#b05242]">{{ e }}</p>{% endfor %}
+  </div>
+{% endfor %}
